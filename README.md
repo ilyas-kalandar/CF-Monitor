@@ -10,9 +10,9 @@ A simple script for monitoring user on Codeforces <br>
 
 ### Install requests, tabulate, colorama/Установите библиотеки requests, tabulate и colorama
 ## Windows
-<code>pip -u install requests tabulate colorama </code>
+<code>pip --user install requests tabulate colorama </code>
 ## Linux/macOS
-<code>pip3 -u install requests tabulate colorama</code>
+<code>pip3 --user install requests tabulate colorama</code>
 
 ### Run script/Запуск
 ## Windows
