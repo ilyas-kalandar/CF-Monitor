@@ -93,8 +93,12 @@ def main():
             s_count = len(parser.get_submissions(date=date))
             s_count_two_days_ago = len(
                 parser.get_submissions(date=days_ago(date, 2)))
-            hardworking_increase = (
-                s_count * 100) / (s_count_two_days_ago + s_count_two_days_ago == 0)
+
+            try:
+                hardworking_increase = (
+                s_count * 100) / (s_count_two_days_ago)
+            except ZeroDivisionError:
+                hardworking_increase = 0
             statistics = [
                 ["Power", power // 100],
                 ["Total submissions", len(
