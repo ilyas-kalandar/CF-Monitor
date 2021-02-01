@@ -37,6 +37,7 @@ class Parser:
             return False
 
         self.userinfo['handle'] = data['result']['handle']
+        
         try:
             self.userinfo['rating'] = data['result']['rating']
         except KeyError:

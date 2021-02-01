@@ -29,15 +29,12 @@ def main():
             if not handle:
                 break
 
-            try:
-                parser.set_handle(handle)
-            except ConnectionError:
-                print(Fore.LIGHTRED_EX + "Connection Error, check your internet.")
-                continue
+            parser.set_handle(handle)
 
             if not parser.check_handle():
                 print(Fore.LIGHTRED_EX + "Error, user does not exits.")
                 continue
+
             try:
                 parser.parse()
             except ConnectionError:
@@ -91,6 +88,13 @@ def main():
 
             print(Fore.LIGHTGREEN_EX + f"Statistics of user {handle}")
 
+            increase_in_percentage = int(
+                power / (power_two_days_ago // 100)) - 100
+            s_count = len(parser.get_submissions(date=date))
+            s_count_two_days_ago = len(
+                parser.get_submissions(date=days_ago(date, 2)))
+            hardworking_increase = (
+                s_count * 100) / (s_count_two_days_ago + s_count_two_days_ago == 0)
             statistics = [
                 ["Power", power // 100],
                 ["Total submissions", len(
@@ -98,7 +102,9 @@ def main():
                 ["Total accepted submissions", len(accepted_submissions)],
                 ["Total rejected submissions", len(rejected_submissions)],
                 ["User rating", parser.userinfo['rating']],
-                ["Increase", (power // 100) - (power_two_days_ago // 100)],
+                ["Increase",
+                    f"{(power // 100) - (power_two_days_ago // 100)} | {increase_in_percentage}%"],
+                ["Hardworking Increase", str(hardworking_increase) + '%']
             ]
 
             table = []

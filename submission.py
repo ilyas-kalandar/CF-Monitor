@@ -4,7 +4,7 @@ class Submission:
         self.rating = rating
         self.programming_lang = programming_lang
         self.verdict = verdict
-        self.creation_time = creation_time
+        self.creation_time = creation_time  
 
     def __repr__(self):
         return f"Submission: Problem-Name: {self.problem_name}, verdict: {self.verdict}"
