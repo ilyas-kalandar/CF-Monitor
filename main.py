@@ -28,9 +28,11 @@ def main():
             handle = input("Enter your handle: ")
             if not handle:
                 break
+               
 
             parser.set_handle(handle)
-
+            parser.clear()
+            
             if not parser.check_handle():
                 print(Fore.LIGHTRED_EX + "Error, user does not exits.")
                 continue
@@ -88,17 +90,18 @@ def main():
 
             print(Fore.LIGHTGREEN_EX + f"Statistics of user {handle}")
 
-            increase_in_percentage = int(
-                power / (power_two_days_ago // 100)) - 100
+            try:
+                increase_in_percentage = int(
+                    power / (power_two_days_ago // 100)) - 100
+            except ZeroDivisionError:
+                increase_in_percentage = power
+                
             s_count = len(parser.get_submissions(date=date))
             s_count_two_days_ago = len(
-                parser.get_submissions(date=days_ago(date, 2)))
-
-            try:
-                hardworking_increase = (
-                s_count * 100) / (s_count_two_days_ago)
-            except ZeroDivisionError:
-                hardworking_increase = 0
+                parser.get_submissions(date=days_ago(date, 2))) 
+            
+            hardworking_increase = s_count - s_count_two_days_ago
+            
             statistics = [
                 ["Power", power // 100],
                 ["Total submissions", len(
@@ -108,7 +111,7 @@ def main():
                 ["User rating", parser.userinfo['rating']],
                 ["Increase",
                     f"{(power // 100) - (power_two_days_ago // 100)} | {increase_in_percentage}%"],
-                ["Hardworking Increase", str(hardworking_increase) + '%']
+                ["Hardworking Increase", hardworking_increase]
             ]
 
             table = []

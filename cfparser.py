@@ -13,12 +13,6 @@ class Parser:
             'rating': None,
             'last_online': None
         }
-        self.submissions = {
-            'submissions': {
-                'accepted_submissions': [],
-                'rejected_submissions': [],
-            }
-        }
 
     def set_handle(self, new_handle):
         """ Changes handle"""
@@ -46,6 +40,14 @@ class Parser:
             data['result']['lastOnlineTimeSeconds'])
 
         return True
+    
+    def clear(self):
+        self.submissions = {
+            'submissions': {
+                'accepted_submissions': [],
+                'rejected_submissions': [],
+            }
+        }
 
     def parse(self):
         """ Parse all submissions """
