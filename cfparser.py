@@ -24,12 +24,12 @@ class Parser:
         data = get("http://codeforces.com/api/user.info?handles=" + self.handle)
 
         data = data.json()
-        data['result'] = data['result'][0]
         self.handle_is_valid = data['status'] == 'OK'
 
         if not self.handle_is_valid:
             return False
-
+        
+        data['result'] = data['result'][0]
         self.userinfo['handle'] = data['result']['handle']
         
         try:

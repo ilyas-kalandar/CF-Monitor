@@ -68,14 +68,14 @@ def main():
                 date=date, verdict="OK")
 
             if not date:
-                date = datetime.now()
+                date = datetime.now() 
 
             accepted_submissions_two_days_ago = parser.get_submissions(
                 to=days_ago(date, 2), verdict="OK", check=True)
 
             power = 0
             power_two_days_ago = 0
-
+            
             for s in all_accepted_submissions:
                 try:
                     power += all_accepted_submissions[s][-1].rating
@@ -89,7 +89,7 @@ def main():
                     power_two_days_ago += 800
 
             print(Fore.LIGHTGREEN_EX + f"Statistics of user {handle}")
-
+            
             try:
                 increase_in_percentage = int(
                     power / (power_two_days_ago // 100)) - 100
