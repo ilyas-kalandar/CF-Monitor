@@ -110,7 +110,6 @@ class Parser:
                 'accepted_submissions' if verdict == "OK" else 'rejected_submissions'
             ]
         except KeyError:
-            print("ERROR!")
             return []
 
     def get_submissions(self, **kwargs):
