@@ -28,11 +28,10 @@ def main():
             handle = input("Enter your handle: ")
             if not handle:
                 break
-               
 
             parser.set_handle(handle)
             parser.clear()
-            
+
             if not parser.check_handle():
                 print(Fore.LIGHTRED_EX + "Error, user does not exits.")
                 continue
@@ -47,13 +46,23 @@ def main():
 
             if input("Do you want to see submissions on a specific day? Y\\N: ").lower().startswith("y"):
                 d = input("Input day: ")
-                day = int(d) if d else datetime.now().day
+                if d:
+                    day = int(d)
+                else:
+                    day = datetime.now().day
 
                 m = input("Input month: ")
-                month = int(m) if d else datetime.now().month
+                if m:
+                    month = int(m)
+                else:
+                    month = datetime.now().month
 
                 y = input("Enter year: ")
-                year = int(y) if y else datetime.now().year
+
+                if y:
+                    year = int(y)
+                else:
+                    year = datetime.now().year
 
                 date = datetime(year, month, day)
 
@@ -68,14 +77,14 @@ def main():
                 date=date, verdict="OK")
 
             if not date:
-                date = datetime.now() 
+                date = datetime.now()
 
             accepted_submissions_two_days_ago = parser.get_submissions(
                 to=days_ago(date, 2), verdict="OK", check=True)
 
             power = 0
             power_two_days_ago = 0
-            
+
             for s in all_accepted_submissions:
                 try:
                     power += all_accepted_submissions[s][-1].rating
@@ -89,19 +98,19 @@ def main():
                     power_two_days_ago += 800
 
             print(Fore.LIGHTGREEN_EX + f"Statistics of user {handle}")
-            
+
             try:
                 increase_in_percentage = int(
                     power / (power_two_days_ago // 100)) - 100
             except ZeroDivisionError:
                 increase_in_percentage = power
-                
+
             s_count = len(parser.get_submissions(date=date))
             s_count_two_days_ago = len(
-                parser.get_submissions(date=days_ago(date, 2))) 
-            
+                parser.get_submissions(date=days_ago(date, 2)))
+
             hardworking_increase = s_count - s_count_two_days_ago
-            
+
             statistics = [
                 ["Power", power // 100],
                 ["Total submissions", len(
