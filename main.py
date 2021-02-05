@@ -2,7 +2,7 @@ from datetime import datetime
 from colorama import init, Fore
 from cfparser import Parser
 from tabulate import tabulate
-from utils import days_ago
+from utils import days_ago, cross_platform_clear
 
 BANNER = """
   ____ _____   __  __             _ _
@@ -13,7 +13,7 @@ BANNER = """
  
  """
 
-VERSION = 0.3
+VERSION = 0.4
 
 
 def main():
@@ -27,7 +27,7 @@ def main():
             print(Fore.LIGHTYELLOW_EX)
             handle = input("Enter your handle: ")
             if not handle:
-                break
+                continue
 
             parser.set_handle(handle)
             parser.clear()
@@ -147,6 +147,8 @@ def main():
             print(tabulate(table, tablefmt='psql', headers=[
                 "Problem", "Rating", "LANG", "Bad submissions", "Time"
             ]))
+            input("Press enter")
+            cross_platform_clear()
         except KeyboardInterrupt:
             print(Fore.LIGHTGREEN_EX + "\nExiting...")
             return

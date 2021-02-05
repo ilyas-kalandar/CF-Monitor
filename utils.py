@@ -1,5 +1,7 @@
 from datetime import datetime
 from calendar import monthrange
+from os import system
+from sys import platform
 
 
 def date_to_str(date: datetime):
@@ -52,3 +54,12 @@ def days_ago(date, d):
         day += monthrange(year, month)[1]
 
     return datetime(year, month, day)
+
+
+def cross_platform_clear():
+    """ Cross-platform function for clear the terminal"""
+
+    if 'win' in platform:
+        system("cls")
+    else:
+        system("clear")
