@@ -28,10 +28,10 @@ class Parser:
 
         if not self.handle_is_valid:
             return False
-        
+
         data['result'] = data['result'][0]
         self.userinfo['handle'] = data['result']['handle']
-        
+
         try:
             self.userinfo['rating'] = data['result']['rating']
         except KeyError:
@@ -40,7 +40,7 @@ class Parser:
             data['result']['lastOnlineTimeSeconds'])
 
         return True
-    
+
     def clear(self):
         self.submissions = {
             'submissions': {
@@ -65,12 +65,18 @@ class Parser:
             except KeyError:
                 s['problem']['rating'] = "Unknown"
 
+            try:
+                s['problem']['contestId']
+            except:
+                s['problem']['contestId'] = "Unknown"
+
             submission = Submission(
                 s['problem']['name'],
                 s['problem']['rating'],
                 s['programmingLanguage'],
                 s['verdict'],
                 s['creationTimeSeconds'],
+                s['problem']['contestId']
             )
 
             # let's create list if not exist!
@@ -176,14 +182,14 @@ class Parser:
 
         return result
 
-    def is_good_submission(self, s):
+    def is_good_submission(self, x):
         """ Check submission, if problem not solved previously, return True"""
 
-        submissions = self.__get(s.problem_name, "OK")
-        sent_time = datetime.fromtimestamp(s.creation_time)
+        submissions = self.__get(x.problem_name, "OK")
+        sent_time = datetime.fromtimestamp(x.creation_time)
         for s in submissions:
             time = datetime.fromtimestamp(s.creation_time)
-            if sent_time.year != time.year or sent_time.month != time.month or sent_time.day != time.day:
+            if s.contest_id == x.contest_id and s.rating == x.rating and not is_between(time, _from=sent_time, to=sent_time):
                 return False
 
         return True

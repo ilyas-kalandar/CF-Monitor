@@ -5,26 +5,31 @@ from tabulate import tabulate
 from utils import days_ago, cross_platform_clear
 
 BANNER = """
-  ____ _____   __  __             _ _
- / ___|  ___| |  \/  | ___  _ __ (_) |_ ___  _ __
-| |   | |_    | |\/| |/ _ \| '_ \| | __/ _ \| '__|
-| |___|  _|   | |  | | (_) | | | | | || (_) | |
- \____|_|     |_|  |_|\___/|_| |_|_|\__\___/|_|
- 
+  ____ _____      __  __             _ _
+ / ___|  ___|    |  \/  | ___  _ __ (_) |_ ___  _ __
+| |   | |_  ____ | |\/| |/ _ \| '_ \| | __/ _ \| '__|
+| |___|  _| ____ | |  | | (_) | | | | | || (_) | |
+ \____|_|        |_|  |_|\___/|_| |_|_|\__\___/|_|
+ ____         __        ___       ____
+| __ ) _   _  \ \      / (_)_ __ |  _ \ _   _ ____
+|  _ \| | | |  \ \ /\ / /| | '_ \| | | | | | |_  /
+| |_) | |_| |   \ V  V / | | | | | |_| | |_| |/ /
+|____/ \__, |    \_/\_/  |_|_| |_|____/ \__,_/___|
+       |___/
  """
 
-VERSION = 0.4
-
+VERSION = 0.5
 
 def main():
     init()
-    print(Fore.LIGHTRED_EX + BANNER)
-    print(Fore.LIGHTCYAN_EX + f"Version {VERSION}...")
-    print("By WinDuz\n\n")
+    print(Fore.LIGHTCYAN_EX + BANNER)
+    print(Fore.LIGHTYELLOW_EX)
+    print(f"VERSION {VERSION}")
+    print("github.com/ilyas-kalandar/cf-monitor")
     parser = Parser()
     while True:
         try:
-            print(Fore.LIGHTYELLOW_EX)
+            print(Fore.LIGHTWHITE_EX)
             handle = input("Enter your handle: ")
             if not handle:
                 continue
@@ -76,14 +81,18 @@ def main():
             not_checked_submissions = parser.get_submissions(
                 date=date, verdict="OK")
 
-            if not date:
-                date = datetime.now()
-
             accepted_submissions_two_days_ago = parser.get_submissions(
-                to=days_ago(date, 2), verdict="OK", check=True)
+                to=days_ago(date if date else datetime.now(), 2), verdict="OK", check=True)
 
             power = 0
             power_two_days_ago = 0
+            power_today = 0
+
+            for s in accepted_submissions:
+                try:
+                    power_today += accepted_submissions[s][-1].rating
+                except KeyError:
+                    power_today += 800
 
             for s in all_accepted_submissions:
                 try:
@@ -97,7 +106,7 @@ def main():
                 except TypeError:
                     power_two_days_ago += 800
 
-            print(Fore.LIGHTGREEN_EX + f"Statistics of user {handle}")
+            print(Fore.LIGHTYELLOW_EX + f"\nStatistics of user {handle.capitalize()}")
 
             try:
                 increase_in_percentage = int(
@@ -113,6 +122,7 @@ def main():
 
             statistics = [
                 ["Power", power // 100],
+                [f"Power on {date.year}:{date.month}:{date.day}", power_today // 100],
                 ["Total submissions", len(
                     rejected_submissions) + len(not_checked_submissions)],
                 ["Total accepted submissions", len(accepted_submissions)],
@@ -142,7 +152,7 @@ def main():
                     datetime.fromtimestamp(s.creation_time),
                 ]
                 )
-
+            print(Fore.LIGHTGREEN_EX, end='')
             print(tabulate(statistics, tablefmt='psql', ))
             print(tabulate(table, tablefmt='psql', headers=[
                 "Problem", "Rating", "LANG", "Bad submissions", "Time"
