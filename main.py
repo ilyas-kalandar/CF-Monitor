@@ -91,7 +91,7 @@ def main():
             for s in accepted_submissions:
                 try:
                     power_today += accepted_submissions[s][-1].rating
-                except KeyError:
+                except TypeError:
                     power_today += 800
 
             for s in all_accepted_submissions:
