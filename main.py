@@ -114,12 +114,12 @@ def main():
             except ZeroDivisionError:
                 increase_in_percentage = power
 
-            s_count = len(parser.get_submissions(date=date))
+            s_count = len(parser.get_submissions(date=date if date else datetime.now()))
             s_count_two_days_ago = len(
-                parser.get_submissions(date=days_ago(date, 2)))
+                parser.get_submissions(date=days_ago(date if date else datetime.now(), 2)))
 
             hardworking_increase = s_count - s_count_two_days_ago
-
+            date = date if date else datetime.now()
             statistics = [
                 ["Power", power // 100],
                 [f"Power on {date.year}:{date.month}:{date.day}", power_today // 100],
