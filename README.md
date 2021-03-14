@@ -1,6 +1,7 @@
 # CF-Monitor
+<img src='screenshots/snimok.png'>
 A simple script for monitoring user on Codeforces <br>
-<img src='screenshots/snimok.png'> 
+ 
 
 ## How to run ?
 ### First, we <b>need</b> to install some python packages. <br>
